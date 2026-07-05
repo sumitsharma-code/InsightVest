@@ -1,4 +1,4 @@
-// services/researchService.js
+// transforms the raw API responses into a clean summary object with formatted numbers and cash flow information
 
 function formatLargeNumber(num) {
     if (!num) return "N/A";

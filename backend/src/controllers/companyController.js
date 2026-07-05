@@ -1,27 +1,78 @@
-const { getCompanyResearch } = require("../services/financialService");
+const { 
+    getCompanyProfile, 
+    getIncomeStatement, 
+    getBalanceSheet, 
+    getCashFlow, 
+    getQuote, 
+    getNews 
+} = require("../services/financialService");
 const { summarizeCompanyData } = require("../services/researchService");
+const { analyzeResearchData } = require("../services/aiService");
 
 async function getCompanyByName(req, res) {
+    const symbol = req.params.name.toUpperCase();
 
-    try {
-
-        const symbol = req.params.name.toUpperCase();
-
-        const rawData = await getCompanyResearch(symbol);
-
-        const summary = summarizeCompanyData(rawData);
-
-        res.json(summary);
-
-    } catch (err) {
-
-        res.status(500).json({
-            error: err.message
-        });
-
+    // Set headers for Event Stream
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+    
+    // Flush headers to start streaming immediately
+    if (res.flushHeaders) {
+        res.flushHeaders();
     }
 
+    const sendUpdate = (stage, message) => {
+        res.write(`data: ${JSON.stringify({ stage, message })}\n\n`);
+    };
+
+    try {
+        sendUpdate('PROFILE', `Fetching company overview for ${symbol}...`);
+        const profile = await getCompanyProfile(symbol);
+
+        sendUpdate('INCOME', `Retrieving annual income statement for ${symbol}...`);
+        const incomeStatement = await getIncomeStatement(symbol);
+
+        sendUpdate('BALANCE', `Retrieving balance sheet for ${symbol}...`);
+        const balanceSheet = await getBalanceSheet(symbol);
+
+        sendUpdate('CASHFLOW', `Retrieving recent cash flow reports for ${symbol}...`);
+        const cashFlow = await getCashFlow(symbol);
+
+        sendUpdate('MARKET', `Fetching stock quote and news sentiments for ${symbol}...`);
+        const quote = await getQuote(symbol);
+        const news = await getNews(symbol);
+
+        sendUpdate('SUMMARIZE', `Compiling metrics and structuring financial records...`);
+        const rawData = {
+            profile,
+            financials: {
+                incomeStatement,
+                balanceSheet,
+                cashFlow,
+            },
+            market: {
+                quote,
+                news,
+            },
+        };
+        const summary = summarizeCompanyData(rawData);
+
+        sendUpdate('AI_ANALYZE', `Generating Google Gemini AI expert stock analysis...`);
+        const aiAnalysis = await analyzeResearchData(summary);
+
+        summary.aiAnalysis = aiAnalysis;
+
+        sendUpdate('COMPLETE', summary);
+        res.end();
+
+    } catch (err) {
+        console.error("Streaming API Error:", err.message);
+        sendUpdate('ERROR', err.message);
+        res.end();
+    }
 }
+
 
 module.exports = {
     getCompanyByName

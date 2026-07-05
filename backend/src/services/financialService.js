@@ -1,3 +1,6 @@
+// only for fetching data from Alpha Vantage
+
+
 require("dotenv").config();
 const axios = require("axios");
 
