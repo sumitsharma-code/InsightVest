@@ -43,6 +43,11 @@ const analyzeResearchData = async (researchData) => {
             
             Market Expectations:
             - Analyst Target Price: $${researchData.analystTargetPrice}
+
+            Required Analysis Standards:
+            1. Include domain-specific financial terminology, specifically analyzing revenue quality, competitive landscape (detailing primary industry competitors), and valuation/operational risks.
+            2. Be quantitative and concrete: do not use general/vague words (e.g. "strong cash flow", "good revenue") without citing the exact numbers, ratios, and percentages provided in the metrics.
+            3. Ground all claims in the strengths, weaknesses, risks, and narratives sections with specific metrics (e.g. Market Cap, P/E Ratio, EPS, Revenue, Margins, and FCF calculations) to convince professional decision-makers.
         `;
 
         // Define the target structured JSON schema

@@ -1,10 +1,6 @@
 const { 
     getCompanyProfile, 
-    getIncomeStatement, 
-    getBalanceSheet, 
-    getCashFlow, 
-    getQuote, 
-    getNews 
+    getCashFlow 
 } = require("../services/financialService");
 const { summarizeCompanyData } = require("../services/researchService");
 const { analyzeResearchData } = require("../services/aiService");
@@ -30,30 +26,14 @@ async function getCompanyByName(req, res) {
         sendUpdate('PROFILE', `Fetching company overview for ${symbol}...`);
         const profile = await getCompanyProfile(symbol);
 
-        sendUpdate('INCOME', `Retrieving annual income statement for ${symbol}...`);
-        const incomeStatement = await getIncomeStatement(symbol);
-
-        sendUpdate('BALANCE', `Retrieving balance sheet for ${symbol}...`);
-        const balanceSheet = await getBalanceSheet(symbol);
-
         sendUpdate('CASHFLOW', `Retrieving recent cash flow reports for ${symbol}...`);
         const cashFlow = await getCashFlow(symbol);
-
-        sendUpdate('MARKET', `Fetching stock quote and news sentiments for ${symbol}...`);
-        const quote = await getQuote(symbol);
-        const news = await getNews(symbol);
 
         sendUpdate('SUMMARIZE', `Compiling metrics and structuring financial records...`);
         const rawData = {
             profile,
             financials: {
-                incomeStatement,
-                balanceSheet,
                 cashFlow,
-            },
-            market: {
-                quote,
-                news,
             },
         };
         const summary = summarizeCompanyData(rawData);

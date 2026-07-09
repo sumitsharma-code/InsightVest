@@ -52,6 +52,8 @@ export default function Dashboard({ data }) {
   };
 
   const freeCashFlow = getFcfEstimate();
+  const isFcfNegative = freeCashFlow.startsWith('-');
+  const fcfClass = isFcfNegative ? 'negative' : 'positive';
 
   return (
     <div className="dashboard-grid">
@@ -173,7 +175,7 @@ export default function Dashboard({ data }) {
           <div className="cashflow-column fcf-highlight">
             <div className="cf-metric">
               <span className="cf-label">Calculated Free Cash Flow (FCF)</span>
-              <span className="cf-value glow-fcf">{freeCashFlow}</span>
+              <span className={`cf-value glow-fcf ${fcfClass}`}>{freeCashFlow}</span>
               <span className="cf-note">Operating Cash Flow - Capital Expenditures</span>
             </div>
             <div className="cf-metric">

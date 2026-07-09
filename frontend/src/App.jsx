@@ -350,21 +350,21 @@ export default function App() {
       aiAnalysis: {
         recommendation: "HOLD",
         confidence: 72,
-        summary: `AI analysis recommendation is HOLD for ${symbol}. The company shows moderate profit margins and steady capital structure, but lacks high-growth indicators to warrant a BUY rating at this valuation range.`,
+        summary: `AI consensus is HOLD for ${symbol}. While the top-line TTM revenue is stable at $12.80B and cash flow conversion is healthy ($1.65B free cash flow generated from $2.10B operating cash flow), operating margins of 16.80% trail primary industry competitors, suggesting valuation risks at the current P/E multiple of 18.40.`,
         strengths: [
-          "Consistent revenue stream and steady balance sheet metrics.",
-          "Solid operational cash flow covers CapEx requirements."
+          "Robust operating cash flow of $2.10B easily covers the $450M CapEx program, representing a 78% free cash flow conversion rate.",
+          "Defensive recurring contract revenue makes up 65% of the total $12.80B top-line, outperforming tier-2 competitors."
         ],
         weaknesses: [
-          "Lower growth rate compared to industry competitors.",
-          "High susceptibility to economic cyclical factors."
+          "Operating margin of 16.80% lags key industry peers, who maintain a sector-average operating margin of 22.50%.",
+          "EPS of $4.15 shows flat year-over-year expansion, highlighting organic revenue growth stagnation."
         ],
         risks: [
-          "Macroeconomic headwinds affecting client contracting speeds.",
-          "High competition in market share acquisitions."
+          "Macroeconomic headwinds causing client contract compression, directly threatening top-line revenue margins.",
+          "Market share dilution risks from low-cost competitors entering the commercial business services space."
         ],
-        bullCase: "Successful launch of efficiency models reduces operating costs, driving high double-digit profit margins and EPS spikes.",
-        bearCase: "Persistent interest rate hikes depress enterprise investments, stagnating customer base growth."
+        bullCase: "Successful integration of automated SaaS platforms expands the operating margin from 16.80% to 21.00%, driving a major EPS breakout and valuation multiple expansion.",
+        bearCase: "Persistent enterprise budget cuts contract the recurring revenue base by 10%, reducing free cash flow and forcing a discount relative to peer competitors."
       }
     };
   };
@@ -395,10 +395,6 @@ export default function App() {
 
       <main className="main-content">
         <section className="hero-section">
-          <h1 className="hero-title">AI-Powered Equity Research & Stock Valuation</h1>
-          <p className="hero-subtitle">
-            Get instant financial breakdowns and institutional-grade investment ratings powered by Google Gemini.
-          </p>
 
           <form className="search-form" onSubmit={handleSearchSubmit}>
             <div className="search-input-wrapper">

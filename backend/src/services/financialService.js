@@ -17,7 +17,15 @@ const fetchData = async (params) => {
             },
         });
 
-        return response.data;
+        const data = response.data;
+        if (data.Note) {
+            throw new Error(data.Note);
+        }
+        if (data.Information) {
+            throw new Error(data.Information);
+        }
+
+        return data;
     } catch (error) {
         console.error("Alpha Vantage Error:", error.response?.data || error.message);
         throw error;
@@ -31,14 +39,6 @@ const getCompanyProfile = async (symbol) => {
         function: "OVERVIEW",
         symbol,
     });
-
-    if (data.Note) {
-        throw new Error(data.Note);
-    }
-
-    if (data.Information) {
-        throw new Error(data.Information);
-    }
 
     if (!data.Symbol) {
         throw new Error("Company not found");
